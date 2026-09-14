@@ -12,6 +12,7 @@ import BookHomestay from "./pages/BookHomestay";
 import BookBike from "./pages/BookBike";
 import Confirmation from "./pages/Confirmation";
 import MyBookings from "./pages/MyBookings";
+import AllBookings from "./pages/AllBookings";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -61,6 +62,14 @@ export default function App() {
               element={
                 <RequireAuth>
                   <MyBookings />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="all-bookings"
+              element={
+                <RequireAuth>
+                  <AllBookings />
                 </RequireAuth>
               }
             />

@@ -20,4 +20,6 @@ urlpatterns = [
     path("bookings/", views.BookingListCreateView.as_view(), name="booking-list-create"),
     path("bookings/<int:pk>/", views.BookingDetailView.as_view(), name="booking-detail"),
     path("bookings/<int:pk>/cancel/", views.BookingCancelView.as_view(), name="booking-cancel"),
+
+    path("admin/bookings/", views.AllBookingsView.as_view(), name="admin-bookings"),
 ]

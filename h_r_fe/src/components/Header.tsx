@@ -56,6 +56,11 @@ export default function Header() {
                 <NavLink to="/my-bookings" className="btn-ghost" onClick={() => setNavOpen(false)}>
                   My Bookings
                 </NavLink>
+                {user.is_staff && (
+                  <NavLink to="/all-bookings" className="btn-ghost" onClick={() => setNavOpen(false)}>
+                    All Bookings
+                  </NavLink>
+                )}
                 <span className="nav-user">Hi, {user.name.split(" ")[0]}</span>
                 <a
                   href="#"

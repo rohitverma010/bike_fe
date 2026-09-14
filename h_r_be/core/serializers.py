@@ -59,11 +59,31 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "username", "email", "first_name", "last_name", "name", "profile"]
+        fields = ["id", "username", "email", "first_name", "last_name", "name", "is_staff", "profile"]
 
     def get_name(self, obj):
         full = f"{obj.first_name} {obj.last_name}".strip()
         return full or obj.username
+
+
+class AdminBookingSerializer(serializers.ModelSerializer):
+    """Booking serializer for the admin-only 'all bookings' view — includes
+    who made the booking, unlike BookingSerializer which is scoped to the
+    logged-in user and so doesn't need to say who they are."""
+    user_email = serializers.EmailField(source="user.email", read_only=True)
+    user_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Booking
+        fields = [
+            "id", "user_email", "user_name", "item_type", "homestay", "bike", "item_name",
+            "checkin", "checkout", "guests_or_days", "rental_charge", "security_deposit",
+            "total_price", "status", "created_at",
+        ]
+
+    def get_user_name(self, obj):
+        full = f"{obj.user.first_name} {obj.user.last_name}".strip()
+        return full or obj.user.username
 
 
 class SignupSerializer(serializers.Serializer):

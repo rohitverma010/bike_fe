@@ -8,6 +8,7 @@ export interface ApiUser {
   username: string;
   email: string;
   name: string;
+  is_staff: boolean;
   profile?: {
     phone: string;
     email_verified: boolean;
@@ -75,6 +76,11 @@ export interface ApiBooking {
   total_price: number;
   status: "Confirmed" | "Cancelled";
   created_at: string;
+}
+
+export interface ApiAdminBooking extends ApiBooking {
+  user_email: string;
+  user_name: string;
 }
 
 export interface ApiResult<T> {
@@ -197,6 +203,8 @@ export const Api = {
     apiRequest<ApiBooking>("/bookings/", { method: "POST", body: payload, auth: true }),
   cancelBooking: (id: number) =>
     apiRequest<ApiBooking>(`/bookings/${id}/cancel/`, { method: "POST", auth: true }),
+
+  allBookings: () => apiRequest<ApiAdminBooking[]>("/admin/bookings/", { auth: true }),
 };
 
 export function formatMoney(n: number): string {

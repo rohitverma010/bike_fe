@@ -13,6 +13,7 @@ from django.conf import settings
 from .models import Bike, Booking, Homestay, OtpCode, PasswordResetToken, Profile
 from .notifications import send_email_otp, send_password_reset_email, send_phone_otp
 from .serializers import (
+    AdminBookingSerializer,
     BikeSerializer,
     BookingSerializer,
     ForgotPasswordSerializer,
@@ -360,6 +361,17 @@ class BookingDetailView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return Booking.objects.filter(user=self.request.user)
+
+
+class AllBookingsView(generics.ListAPIView):
+    """
+    Every booking on the site, across all users — restricted to staff
+    accounts only (see is_staff on the user). Used for the admin-only
+    'All Bookings' page in the frontend.
+    """
+    serializer_class = AdminBookingSerializer
+    permission_classes = [permissions.IsAdminUser]
+    queryset = Booking.objects.select_related("user").order_by("-created_at")
 
 
 class BookingCancelView(APIView):
