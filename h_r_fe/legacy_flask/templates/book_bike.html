@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Rent Bike - StayNRide{% endblock %}
+{% block content %}
+
+<div class="container" id="bookBikeRoot" data-id="{{ bid }}" style="padding-top:30px; max-width:900px;">
+  <div class="skeleton skeleton-text" style="height:32px; width:50%;"></div>
+  <div class="skeleton skeleton-text short" style="margin-bottom:26px;"></div>
+  <div class="detail-layout">
+    <div class="skeleton-card" style="padding:28px;">
+      <div class="skeleton skeleton-text"></div>
+      <div class="skeleton skeleton-text"></div>
+    </div>
+    <div class="booking-box">
+      <div class="skeleton skeleton-text"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/book-bike.js') }}"></script>
+{% endblock %}

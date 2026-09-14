@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}My Bookings - StayNRide{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container">
+    <h1>My Bookings</h1>
+    <p>All your homestay and bike bookings in one place</p>
+  </div>
+</div>
+
+<div class="container" style="padding-top:30px;">
+  <div id="bookingsRoot" class="bookings-list">
+    <div class="skeleton-card" style="padding:20px;"><div class="skeleton skeleton-text"></div></div>
+    <div class="skeleton-card" style="padding:20px;"><div class="skeleton skeleton-text"></div></div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/my-bookings.js') }}"></script>
+{% endblock %}

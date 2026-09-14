@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="hero">
+  <div class="container hero-inner">
+    <h1>Find your stay. Ride your way.</h1>
+    <p>Book handpicked homestays and rent the perfect bike — everything you need for your next trip, in one place.</p>
+    <div class="hero-cta">
+      <a href="{{ url_for('homestays') }}" class="btn-solid btn-lg">Browse Homestays</a>
+      <a href="{{ url_for('bikes') }}" class="btn-ghost btn-lg">Browse Bikes</a>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="search-card">
+    <div class="search-tabs">
+      <button class="search-tab active" data-target="searchHomestay">🏡 Homestays</button>
+      <button class="search-tab" data-target="searchBike">🏍️ Bike Rentals</button>
+    </div>
+
+    <form class="search-form" id="searchHomestay" action="{{ url_for('homestays') }}" method="get">
+      <div class="field">
+        <label>Destination</label>
+        <input type="text" name="q" placeholder="Where to? e.g. Goa, Manali">
+      </div>
+      <div class="field">
+        <label>Sort by</label>
+        <select name="sort">
+          <option value="">Recommended</option>
+          <option value="price_low">Price: Low to High</option>
+          <option value="price_high">Price: High to Low</option>
+          <option value="rating">Top Rated</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Guests</label>
+        <select name="guests">
+          <option>1 Guest</option><option>2 Guests</option><option>4+ Guests</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-solid btn-lg">Search</button>
+    </form>
+
+    <form class="search-form hidden" id="searchBike" action="{{ url_for('bikes') }}" method="get">
+      <div class="field">
+        <label>Location</label>
+        <input type="text" name="q" placeholder="Where do you need a bike?">
+      </div>
+      <div class="field">
+        <label>Bike type</label>
+        <select name="type">
+          <option value="">Any type</option>
+          <option value="Scooter">Scooter</option>
+          <option value="Adventure">Adventure</option>
+          <option value="Street">Street</option>
+          <option value="Cruiser">Cruiser</option>
+          <option value="Sports">Sports</option>
+          <option value="Bicycle">Bicycle</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Pickup date</label>
+        <input type="date">
+      </div>
+      <button type="submit" class="btn-solid btn-lg">Search</button>
+    </form>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Popular Homestays</h2>
+        <p>Top-rated stays loved by travelers</p>
+      </div>
+      <a href="{{ url_for('homestays') }}" class="btn-outline">View all</a>
+    </div>
+    <div class="grid" id="popularHomestays">
+      {% for _ in range(3) %}
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-img"></div>
+        <div class="card-body">
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text short"></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Popular Bikes</h2>
+        <p>Ride-ready bikes for every road</p>
+      </div>
+      <a href="{{ url_for('bikes') }}" class="btn-outline">View all</a>
+    </div>
+    <div class="grid" id="popularBikes">
+      {% for _ in range(3) %}
+      <div class="skeleton-card">
+        <div class="skeleton skeleton-img"></div>
+        <div class="card-body">
+          <div class="skeleton skeleton-text"></div>
+          <div class="skeleton skeleton-text short"></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div><h2>How it works</h2><p>Three simple steps to your next adventure</p></div>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="icon">🔍</div>
+        <h4>Search</h4>
+        <p>Explore homestays and bikes by destination, price and rating.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📅</div>
+        <h4>Book</h4>
+        <p>Pick your dates, confirm details and book securely in minutes.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🎒</div>
+        <h4>Pack & Go</h4>
+        <p>Get instant confirmation and manage everything from your account.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">⭐</div>
+        <h4>Enjoy</h4>
+        <p>Stay comfortably and ride freely — memories guaranteed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="cta-band">
+      <h2>Ready for your next trip?</h2>
+      <p>Join thousands of travelers booking their perfect stay and ride with StayNRide.</p>
+      <a href="{{ url_for('signup') }}" class="btn-solid btn-lg" id="ctaAuthLink">Create free account</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/home.js') }}"></script>
+{% endblock %}

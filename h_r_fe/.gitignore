@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+*.local
+
+# Old Flask/Jinja version, kept for reference only — not part of the SPA build.
+legacy_flask/__pycache__/
+legacy_flask/database.db
+legacy_flask/.env

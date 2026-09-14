@@ -1,0 +1,6 @@
+{
+  "files.exclude": {
+    "**/__pycache__": true,
+    "legacy_flask": true
+  }
+}

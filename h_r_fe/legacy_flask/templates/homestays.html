@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Homestays - StayNRide{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container">
+    <h1>Homestays</h1>
+    <p>Handpicked homes, cottages and villas across India</p>
+  </div>
+</div>
+
+<div class="container" style="padding-top:30px;">
+  <div class="filter-bar">
+    <form id="homestayFilterForm">
+      <input type="text" id="qInput" placeholder="Search by location or name...">
+      <select id="sortInput">
+        <option value="">Recommended</option>
+        <option value="price_low">Price: Low to High</option>
+        <option value="price_high">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+      </select>
+      <button type="submit" class="btn-solid">Filter</button>
+    </form>
+  </div>
+
+  <div id="homestayGrid" class="grid">
+    {% for _ in range(6) %}
+    <div class="skeleton-card">
+      <div class="skeleton skeleton-img"></div>
+      <div class="card-body">
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-text short"></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/homestays.js') }}"></script>
+{% endblock %}

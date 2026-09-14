@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Contact Us - StayNRide{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container">
+    <h1>Contact Us</h1>
+    <p>We'd love to hear from you</p>
+  </div>
+</div>
+
+<div class="container section">
+  <div class="detail-layout">
+    <form id="contactForm" class="auth-card" style="box-shadow:var(--shadow); padding:28px;">
+      <div id="contactSuccess" class="flash flash-success" style="display:none; margin-bottom:16px;">
+        Thanks for reaching out! Our team will contact you shortly.
+      </div>
+      <div class="form-group">
+        <label>Your name</label>
+        <input type="text" placeholder="Full name" required>
+      </div>
+      <div class="form-group">
+        <label>Email address</label>
+        <input type="email" placeholder="you@example.com" required>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea rows="5" placeholder="How can we help?" required></textarea>
+      </div>
+      <button type="submit" class="btn-solid btn-block btn-lg">Send Message</button>
+    </form>
+
+    <div>
+      <h3>Get in touch</h3>
+      <p style="color:var(--gray);">Our support team is available 24/7 to help with bookings, cancellations and any questions.</p>
+      <div class="amenity-grid" style="grid-template-columns:1fr; margin-top:20px;">
+        <div class="amenity">📧 bike@outlook.com</div>
+        <div class="amenity">📞 +91 78766 43552</div>
+        <div class="amenity">📍 Rewalsar, Mandi, India</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/contact.js') }}"></script>
+{% endblock %}

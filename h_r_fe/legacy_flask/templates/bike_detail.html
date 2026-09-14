@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Bike - StayNRide{% endblock %}
+{% block content %}
+
+<div class="container" id="bikeDetailRoot" data-id="{{ bid }}" style="padding-top:30px;">
+  <div class="skeleton skeleton-img" style="height:420px; border-radius:var(--radius); margin-bottom:28px;"></div>
+  <div class="detail-layout">
+    <div>
+      <div class="skeleton skeleton-text" style="height:32px; width:60%;"></div>
+      <div class="skeleton skeleton-text short"></div>
+      <div class="skeleton skeleton-text"></div>
+      <div class="skeleton skeleton-text"></div>
+    </div>
+    <div class="booking-box">
+      <div class="skeleton skeleton-text" style="height:28px;"></div>
+      <div class="skeleton skeleton-text"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/bike-detail.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Bike Rentals - StayNRide{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <div class="container">
+    <h1>Bike Rentals</h1>
+    <p>Cruisers, sports bikes, scooters and bicycles ready to ride</p>
+  </div>
+</div>
+
+<div class="container" style="padding-top:30px;">
+  <div class="filter-bar">
+    <form id="bikeFilterForm" style="width:100%;">
+      <input type="text" id="qInput" placeholder="Search by location or bike name...">
+      <select id="typeInput">
+        <option value="">All types</option>
+        <option value="Scooter">Scooter</option>
+        <option value="Adventure">Adventure</option>
+        <option value="Street">Street</option>
+        <option value="Cruiser">Cruiser</option>
+        <option value="Sports">Sports</option>
+        <option value="Bicycle">Bicycle</option>
+      </select>
+      <button type="submit" class="btn-solid">Filter</button>
+    </form>
+  </div>
+
+  <div id="bikeGrid" class="grid">
+    {% for _ in range(6) %}
+    <div class="skeleton-card">
+      <div class="skeleton skeleton-img"></div>
+      <div class="card-body">
+        <div class="skeleton skeleton-text"></div>
+        <div class="skeleton skeleton-text short"></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/bikes.js') }}"></script>
+{% endblock %}
