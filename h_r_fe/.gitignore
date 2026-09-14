@@ -7,3 +7,6 @@ dist/
 legacy_flask/__pycache__/
 legacy_flask/database.db
 legacy_flask/.env
+
+.vercel
+.env*
