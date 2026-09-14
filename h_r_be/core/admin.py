@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Bike, Booking, Homestay, OtpCode, Profile
+from .models import Bike, Booking, Homestay, OtpCode, PasswordResetToken, Profile
 
 
 @admin.register(Profile)
@@ -12,6 +12,13 @@ class ProfileAdmin(admin.ModelAdmin):
 class OtpCodeAdmin(admin.ModelAdmin):
     list_display = ("user", "purpose", "code", "verified", "created_at", "expires_at")
     list_filter = ("purpose", "verified")
+    search_fields = ("user__email",)
+
+
+@admin.register(PasswordResetToken)
+class PasswordResetTokenAdmin(admin.ModelAdmin):
+    list_display = ("user", "used", "created_at", "expires_at")
+    list_filter = ("used",)
     search_fields = ("user__email",)
 
 

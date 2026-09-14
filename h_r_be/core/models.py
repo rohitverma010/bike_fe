@@ -1,4 +1,5 @@
 import random
+import secrets
 from datetime import timedelta
 
 from django.conf import settings
@@ -47,6 +48,33 @@ class OtpCode(models.Model):
 
     def is_expired(self):
         return timezone.now() > self.expires_at
+
+
+class PasswordResetToken(models.Model):
+    """A one-time link token emailed to a user who requested a password reset."""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reset_tokens")
+    token = models.CharField(max_length=64, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    used = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"PasswordResetToken<{self.user.email}>"
+
+    @classmethod
+    def generate(cls, user, ttl_minutes=30):
+        token = secrets.token_urlsafe(32)
+        return cls.objects.create(
+            user=user,
+            token=token,
+            expires_at=timezone.now() + timedelta(minutes=ttl_minutes),
+        )
+
+    def is_expired(self):
+        return timezone.now() > self.expires_at
+
+    def is_valid(self):
+        return not self.used and not self.is_expired()
 
 
 class Homestay(models.Model):

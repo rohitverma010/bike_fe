@@ -33,6 +33,27 @@ def send_email_otp(user, code):
     )
 
 
+def send_password_reset_email(user, reset_url):
+    subject = "Reset your RohitStayNRide password"
+    message = (
+        f"Hi {user.first_name or user.username},\n\n"
+        f"We received a request to reset your password. Click the link below to choose a new one:\n\n"
+        f"{reset_url}\n\n"
+        f"This link expires in 30 minutes. If you didn't request this, you can ignore this email — "
+        f"your password will stay the same."
+    )
+    if not settings.EMAIL_HOST_USER:
+        logger.warning("EMAIL_HOST_USER not configured — password reset link for %s: %s", user.email, reset_url)
+        return
+    send_mail(
+        subject,
+        message,
+        settings.DEFAULT_FROM_EMAIL,
+        [user.email],
+        fail_silently=False,
+    )
+
+
 def send_phone_otp(phone, code):
     if not (settings.TWILIO_ACCOUNT_SID and settings.TWILIO_AUTH_TOKEN and settings.TWILIO_FROM_NUMBER):
         logger.warning("Twilio not configured — phone OTP for %s: %s", phone, code)

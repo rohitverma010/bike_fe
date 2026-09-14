@@ -47,6 +47,9 @@ export default function Login() {
           <div className="form-group">
             <label>Password</label>
             <input type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
+            <div style={{ textAlign: "right", marginTop: 6 }}>
+              <Link to="/forgot-password" className="link-btn">Forgot password?</Link>
+            </div>
           </div>
           <button type="submit" className="btn-solid btn-block btn-lg" disabled={submitting}>
             {submitting ? "Logging in..." : "Log In"}

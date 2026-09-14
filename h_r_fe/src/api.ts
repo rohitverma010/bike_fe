@@ -173,6 +173,16 @@ export const Api = {
       method: "POST",
       body: { email, password },
     }),
+  forgotPassword: (email: string) =>
+    apiRequest<{ message: string }>("/auth/forgot-password/", {
+      method: "POST",
+      body: { email },
+    }),
+  resetPassword: (token: string, newPassword: string) =>
+    apiRequest<{ message: string; token: string; user: ApiUser }>("/auth/reset-password/", {
+      method: "POST",
+      body: { token, new_password: newPassword },
+    }),
   me: () => apiRequest<ApiUser>("/auth/me/", { auth: true }),
 
   homestays: (params: string = "") => apiRequest<ApiHomestay[]>(`/homestays/${params}`),

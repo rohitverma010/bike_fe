@@ -8,14 +8,18 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Bike, Booking, Homestay, OtpCode, Profile
-from .notifications import send_email_otp, send_phone_otp
+from django.conf import settings
+
+from .models import Bike, Booking, Homestay, OtpCode, PasswordResetToken, Profile
+from .notifications import send_email_otp, send_password_reset_email, send_phone_otp
 from .serializers import (
     BikeSerializer,
     BookingSerializer,
+    ForgotPasswordSerializer,
     HomestaySerializer,
     LoginSerializer,
     ResendOtpSerializer,
+    ResetPasswordSerializer,
     SignupSerializer,
     UserSerializer,
     VerifyOtpSerializer,
@@ -161,6 +165,68 @@ class LoginView(APIView):
 
         token, _ = Token.objects.get_or_create(user=user)
         return Response({"token": token.key, "user": UserSerializer(user).data})
+
+
+class ForgotPasswordView(APIView):
+    """
+    Sends a password reset link to the given email if an account exists.
+    Always returns the same generic response either way, so this endpoint
+    can't be used to check whether an email is registered.
+    """
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = ForgotPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        email = serializer.validated_data["email"].strip().lower()
+
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user = None
+
+        if user:
+            reset_token = PasswordResetToken.generate(user)
+            reset_url = f"{settings.FRONTEND_URL}/reset-password?token={reset_token.token}"
+            send_password_reset_email(user, reset_url)
+
+        return Response(
+            {"message": "If an account exists for that email, a reset link has been sent."}
+        )
+
+
+class ResetPasswordView(APIView):
+    """Sets a new password given a valid, unexpired, unused reset token."""
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        serializer = ResetPasswordSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        data = serializer.validated_data
+
+        try:
+            reset_token = PasswordResetToken.objects.get(token=data["token"])
+        except PasswordResetToken.DoesNotExist:
+            return Response({"detail": "Invalid or expired reset link."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not reset_token.is_valid():
+            return Response({"detail": "Invalid or expired reset link."}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = reset_token.user
+        user.set_password(data["new_password"])
+        user.save(update_fields=["password"])
+
+        reset_token.used = True
+        reset_token.save(update_fields=["used"])
+
+        # Invalidate any other outstanding tokens for this user too.
+        PasswordResetToken.objects.filter(user=user, used=False).exclude(pk=reset_token.pk).update(used=True)
+
+        # Log the user's other sessions out by rotating their auth token.
+        Token.objects.filter(user=user).delete()
+        token = Token.objects.create(user=user)
+
+        return Response({"message": "Password has been reset.", "token": token.key, "user": UserSerializer(user).data})
 
 
 class MeView(APIView):

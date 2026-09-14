@@ -102,3 +102,12 @@ class VerifyOtpSerializer(serializers.Serializer):
 class ResendOtpSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
     purpose = serializers.ChoiceField(choices=["email", "phone"])
+
+
+class ForgotPasswordSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    token = serializers.CharField()
+    new_password = serializers.CharField(min_length=6, write_only=True)

@@ -187,6 +187,10 @@ TWILIO_ACCOUNT_SID = os.environ.get('TWILIO_ACCOUNT_SID', '')
 TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', '')
 TWILIO_FROM_NUMBER = os.environ.get('TWILIO_FROM_NUMBER', '')
 
+# Base URL of the deployed frontend, used to build links sent in emails
+# (e.g. the password reset link). Defaults to the local Vite dev server.
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:5176')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
